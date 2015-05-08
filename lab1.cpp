@@ -113,7 +113,7 @@ int main( int argc, char** argv )
 		img = cvLoadImage( cFileName, -1 );
 
 		if (img == NULL) {
-			printf("Unable to load image '%s' \n", filename);
+			printf("Unable to load image '%s' \n", cFileName);
 			continue;
 		}
 
@@ -203,7 +203,7 @@ int main( int argc, char** argv )
 		//cvShowImage( "Processed", processed );
 		
 		// Wait until a key is pressed to continue... 	
-		tecla = cvWaitKey(0);
+		//tecla = cvWaitKey(0);
 	}
 	// *****************************************************************************************************************************************
 	// *****************************************************************************************************************************************
@@ -230,7 +230,7 @@ int main( int argc, char** argv )
 		img = cvLoadImage( cFileName, -1 );
 
 		if (img == NULL) {
-			printf("Unable to load image '%s' \n", filename);
+			printf("Unable to load image '%s' \n", cFileName);
 			continue;
 		}
 
@@ -243,11 +243,11 @@ int main( int argc, char** argv )
 		// processed = cvCreateImage( tam, IPL_DEPTH_8U, 3);
 
 		// Make a image clone and store it at processed and threshold
-		processed 	= cvCloneImage( img );
-		threshold  		= cvCloneImage( img );
+		processed = cvCloneImage( img );
+		threshold = cvCloneImage( img );
 
 		// Initialize variables with zero 
-		fOrange 	= 0.0;
+		fOrange = 0.0;
 		fWhite 	= 0.0;
 
 		// Loop that reads each image pixel
@@ -315,11 +315,11 @@ int main( int argc, char** argv )
 
 
 		// Finally, give a look at the original image and the image with the pixels of interest in green
-		cvShowImage( "Original", img );
-		cvShowImage( "Processed", processed );
+		//cvShowImage( "Original", img );
+		//cvShowImage( "Processed", processed );
 		
 		// Wait until a key is pressed to continue... 	
-		tecla = cvWaitKey(0);
+		//tecla = cvWaitKey(0);
 	}
 
 	cvReleaseImage(&img);
