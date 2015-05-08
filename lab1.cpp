@@ -214,7 +214,7 @@ int main( int argc, char** argv )
 	for ( iNum = 1; iNum <= 80; iNum++ )
 	{
 		// Build the image filename and path to read from disk
-		sprintf ( cFileName, "Train/bart%d.bmp", (int)(iNum) ); 
+		sprintf ( cFileName, "Train/bart%03d.bmp", (int)(iNum) ); 
 		printf ( " %s\n", cFileName);
 
 		// Load the image from disk to the structure img.
