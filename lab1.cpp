@@ -113,6 +113,12 @@ int main( int argc, char** argv )
 		img = cvLoadImage( cFileName, -1 );
 
 		// Gets the image size (width, height) 'img'
+		if (img == NULL) {
+			printf("Unable to load image '%s' \n", cFileName);
+			continue;
+		}
+
+		// Gets the image size (width, height) 'img'
 		tam = cvGetSize( img );
 
 		// Creates a header and allocates memory (tam) to store a copy of the original image.
@@ -194,11 +200,11 @@ int main( int argc, char** argv )
 
 		// Finally, give a look at the original image and the image with the pixels of interest in green
 		// OpenCV create an output window
-		cvShowImage( "Original", img );
-		cvShowImage( "Processed", processed );
+		//cvShowImage( "Original", img );
+		//cvShowImage( "Processed", processed );
 
 		// Wait until a key is pressed to continue...
-		tecla = cvWaitKey(0);
+		//tecla = cvWaitKey(0);
 	}
 	// *****************************************************************************************************************************************
 	// *****************************************************************************************************************************************
@@ -214,7 +220,7 @@ int main( int argc, char** argv )
 	for ( iNum = 1; iNum <= 80; iNum++ )
 	{
 		// Build the image filename and path to read from disk
-		sprintf ( cFileName, "Train/bart%d.bmp", (int)(iNum) );
+		sprintf ( cFileName, "Train/bart%03d.bmp", (int)(iNum) );
 		printf ( " %s\n", cFileName);
 
 		// Load the image from disk to the structure img.
@@ -225,6 +231,12 @@ int main( int argc, char** argv )
 		img = cvLoadImage( cFileName, -1 );
 
 		// Gets the image size (width, height) 'img'
+		if (img == NULL) {
+			printf("Unable to load image '%s' \n", cFileName);
+			continue;
+		}
+
+		// Gets the image size (width, height) 'img'
 		tam = cvGetSize( img );
 
 		// Creates a header and allocates memory (tam) to store a copy of the original image.
@@ -233,11 +245,11 @@ int main( int argc, char** argv )
 		// processed = cvCreateImage( tam, IPL_DEPTH_8U, 3);
 
 		// Make a image clone and store it at processed and threshold
-		processed 	= cvCloneImage( img );
-		threshold  		= cvCloneImage( img );
+		processed = cvCloneImage( img );
+		threshold = cvCloneImage( img );
 
 		// Initialize variables with zero
-		fOrange 	= 0.0;
+		fOrange = 0.0;
 		fWhite 	= 0.0;
 
 		// Loop that reads each image pixel
@@ -305,11 +317,11 @@ int main( int argc, char** argv )
 
 
 		// Finally, give a look at the original image and the image with the pixels of interest in green
-		cvShowImage( "Original", img );
-		cvShowImage( "Processed", processed );
+		//cvShowImage( "Original", img );
+		//cvShowImage( "Processed", processed );
 
 		// Wait until a key is pressed to continue...
-		tecla = cvWaitKey(0);
+		//tecla = cvWaitKey(0);
 	}
 
 	cvReleaseImage(&img);
