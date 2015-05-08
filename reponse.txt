@@ -13,3 +13,7 @@ Pour la quatrième valeur qui est la présence de la couleur bleu distinctive de
 Question 2
 
 On peut donc voir que certaines primitives sont plus discrimitantes que d'autre. La couleur beige de la barbe de Homer discrimine mieux que la couleur bleu de ses pantalons, car il existe un seuil à partir duquel on obtient un taux d'erreur plus faible. Dans l'ensemble comme on a un taux d'erreur d'au plus 30% pour les primitives que l'on a choisit, on peut donc affirmer que l'on a des valeurs qui sont assez discrimiante pour être utile, car leur taux de succès est meilleur qu'un essai aléatoire.
+
+Question 3
+
+Ça dépend de la classe qu'on ajoute. Si c'est Lisa, il ne devrait pas trop y avoir de problèmes, mais si c'est Marge, ses cheveux sont du même bleu que les pantalons et souliers de Bart. Donc Marge créerait des collisions et des faux positifs/négatifs, mais pas la palette de couleurs de Lisa, car il contient un rouge assez unique.
