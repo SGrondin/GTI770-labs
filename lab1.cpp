@@ -112,6 +112,11 @@ int main( int argc, char** argv )
 		
 		img = cvLoadImage( cFileName, -1 );
 
+		if (img == NULL) {
+			printf("Unable to load image '%s' \n", filename);
+			continue;
+		}
+
 		// Gets the image size (width, height) 'img' 
 		tam = cvGetSize( img );
 
@@ -194,8 +199,8 @@ int main( int argc, char** argv )
 
 		// Finally, give a look at the original image and the image with the pixels of interest in green
 		// OpenCV create an output window
-		cvShowImage( "Original", img );
-		cvShowImage( "Processed", processed );
+		//cvShowImage( "Original", img );
+		//cvShowImage( "Processed", processed );
 		
 		// Wait until a key is pressed to continue... 	
 		tecla = cvWaitKey(0);
@@ -223,6 +228,11 @@ int main( int argc, char** argv )
 		// -1 - Load the image as it is  (depends on the file)
 		
 		img = cvLoadImage( cFileName, -1 );
+
+		if (img == NULL) {
+			printf("Unable to load image '%s' \n", filename);
+			continue;
+		}
 
 		// Gets the image size (width, height) 'img' 
 		tam = cvGetSize( img );
