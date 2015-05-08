@@ -1,0 +1,15 @@
+Question 1
+
+Pour la première valeur qui est la présence de la couleur orange distinctive du t-shirt de Bart, on peut remarquer que 25 images de Bart n'ont pas cette couleur et que 6 images de Homer en ont. Ainsi, 31/140 images seront mal classifiées. 
+
+Pour la deuxième valeur qui est la présence de la couleur mauve distinctive des soulieurs de Bart, on peut remarquer que 32 images de Bart n'ont pas cette couleur et que 4 images de Homer en ont. Ainsi, 36/140 images seront mal classifiées.
+
+Pour la troisième valeur qui est la présence de la couleur beige distinctive de la barbe de Homer, on peut remarquer qu'à partir de la limite 0.00005
+ 13 images de Homer sont en dessous de cette limite et que 7 images de Bart sont en haut. Ainsi, 20/140 images seront mal classifiées.
+
+Pour la quatrième valeur qui est la présence de la couleur bleu distinctive des pantalons de Homer, on peut remarquer qu'à partir de la limite 0.0003
+ 37 images de Homer sont en dessous de cette limite et que 2 images de Bart sont en haut. Ainsi, 39/140 images seront mal classifiées.
+
+Question 2
+
+On peut donc voir que certaines primitives sont plus discrimitantes que d'autre. La couleur beige de la barbe de Homer discrimine mieux que la couleur bleu de ses pantalons, car il existe un seuil à partir duquel on obtient un taux d'erreur plus faible. Dans l'ensemble comme on a un taux d'erreur d'au plus 30% pour les primitives que l'on a choisit, on peut donc affirmer que l'on a des valeurs qui sont assez discrimiante pour être utile, car leur taux de succès est meilleur qu'un essai aléatoire.
