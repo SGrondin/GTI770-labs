@@ -1,38 +1,38 @@
 Question 1
 
-Pour la première valeur qui est la présence de la couleur orange distinctive du t-shirt de Bart, on peut remarquer que 25 images de Bart n'ont pas cette couleur et que 6 images de Homer en ont. Ainsi, 31/140 images seront mal classifiées. 
+Pour la première valeur qui est la présence de la couleur orange distinctive du t-shirt de Bart, on peut remarquer que 25 images de Bart n'ont pas cette couleur et que 6 images de Homer l'ont. Ainsi, 31/140 images seront mal classifiées.
 
-Pour la deuxième valeur qui est la présence de la couleur mauve distinctive des soulieurs de Bart, on peut remarquer que 32 images de Bart n'ont pas cette couleur et que 4 images de Homer en ont. Ainsi, 36/140 images seront mal classifiées.
+Pour la deuxième valeur qui est la présence de la couleur mauve distinctive des soulieurs de Bart, on peut remarquer que 32 images de Bart n'ont pas cette couleur et que 4 images de Homer l'ont. Ainsi, 36/140 images seront mal classifiées.
 
-Pour la troisième valeur qui est la présence de la couleur beige distinctive de la barbe de Homer, on peut remarquer qu'à partir de la limite 0.00005
- 13 images de Homer sont en dessous de cette limite et que 7 images de Bart sont en haut. Ainsi, 20/140 images seront mal classifiées.
+Pour la troisième valeur qui est la présence de la couleur beige distinctive de la barbe de Homer, on peut remarquer qu'à partir de la limite 0.00005,
+ 13 images de Homer sont en dessous de cette limite et que 7 images de Bart sont au dessus. Ainsi, 20/140 images seront mal classifiées.
 
 Pour la quatrième valeur qui est la présence de la couleur bleu distinctive des pantalons de Homer, on peut remarquer qu'à partir de la limite 0.0003
- 37 images de Homer sont en dessous de cette limite et que 2 images de Bart sont en haut. Ainsi, 39/140 images seront mal classifiées.
+ 37 images de Homer sont en dessous de cette limite et que 2 images de Bart sont au dessus. Ainsi, 39/140 images seront mal classifiées.
 
 Question 2
 
-On peut donc voir que certaines primitives sont plus discrimitantes que d'autre. La couleur beige de la barbe de Homer discrimine mieux que la couleur bleu de ses pantalons, car il existe un seuil à partir duquel on obtient un taux d'erreur plus faible. Dans l'ensemble comme on a un taux d'erreur d'au plus 30% pour les primitives que l'on a choisit, on peut donc affirmer que l'on a des valeurs qui sont assez discrimiante pour être utile, car leur taux de succès est meilleur qu'un essai aléatoire.
+On peut donc voir que certaines primitives sont plus discrimitantes que d'autres. La couleur beige de la barbe d'Homer discrimine mieux que la couleur bleu de ses pantalons, car il existe un seuil à partir duquel on obtient un taux d'erreur plus faible. Dans l'ensemble, comme on a un taux d'erreur d'au plus 30% pour les primitives qu'on a choisit, on peut donc affirmer qu'on a des valeurs qui sont assez discrimiante pour être utiles, car leur taux de succès est meilleur qu'un essai aléatoire.
 
 Question 3
 
-Oui, car on peut voir sur le graphe des caractéristiques de Bart et le graphe des caractéristique de Homer que les images de Lisa sont tous dans la même zone. Elles peuvent ainsi être facilement discriminées des images de Bart et Homer. Lisa cause peu de faux positifs ou de faux négatifs dans les primitives choisies précédemments pour les autres classes.
+Oui, car on peut voir sur le graphe des caractéristiques de Bart et le graphe des caractéristique de Homer que les images de Lisa sont toutes dans la même zone. Elles peuvent ainsi être facilement différenciées des images de Bart et Homer. Lisa cause peu de faux positifs ou de faux négatifs dans les primitives choisies précédemment pour les autres classes.
 
 Question 4
 
-On a ajouté 2 primitives pour mieux détecter Lisa et les autres primitives ont été gardées. Ces 2 primitives essaient de détecter la robe de Lisa ainsi que les perles de son collier. On peut voir qu'avec ces primitives, les images de Lisa peuvent être discriminées des autres images dans la plupart des cas.
+On a ajouté 2 primitives pour mieux détecter Lisa et les autres primitives ont été conservées. Ces 2 primitives essaient de détecter la robe de Lisa ainsi que les perles de son collier. On peut voir qu'avec ces primitives, les images de Lisa peuvent être différenciées des autres images dans la plupart des cas.
 
 Question 5
 
-Oui, car on peut encore bien distinguer Homer de Other et Bart de Other. Ainsi même si les images de Other sont très variés, ils sont généralement assez différentes de Homer et Bart pour que l'on puisse bien les classifier.
+Oui, car on peut encore bien distinguer Homer de Other et Bart de Other. Ainsi même si les images de Other sont très variés, elles sont généralement assez différentes de Homer et Bart pour qu'on puisse bien les classifier.
 
 Question 6
 
-Étant que Other est trop diversifié pour avoir des primitives facile à identifier aucune primitive n'a été ajoutée.
+Étant donnée que Other est trop diversifié pour avoir des primitives facile à identifier, aucune primitive n'a été ajoutée.
 
 Question 7
 
-Non, car les primitives ne permettent pas de bien faire la distinction entre la classe School et Other. Nous n'avons pas pu identifier de primitives intéressantes pour ces 2 classes, car les images de ces classes n'ont pas vraiment de point en commun. Comme nous sommes en présence de 2 classes trop difficile à discrimer, il n'est pas vraiment possible de trouver de primitive simple pour les distinguer.
+Non, car les primitives ne permettent pas de bien faire la distinction entre la classe School et Other. Nous n'avons pas pu identifier de primitives intéressantes pour ces 2 classes, car les images de ces classes n'ont pas vraiment de point en commun. Comme nous sommes en présence de 2 classes trop difficiles à discrimer, il n'est pas vraiment possible de trouver de primitive simple pour les distinguer.
 
 Question 8
 
