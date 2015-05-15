@@ -14,16 +14,62 @@
 #include <highgui.h>			//OpenCV lib
 #include <stdio.h>
 #include <math.h>
-
+#include <stack>	
 
 // DEFINES
 #define NUM_SAMPLES 100
-#define NUM_FEATURES 4
+#define NUM_FEATURES 6
+#define NUMBER_OF_CLASS 5
 
 // Bart Train: 80 items: bart1.bmp - bart80.bmp
 // Homer Train 62 items: homer1.bmp - homer62.bmp
 // Bart Valid: 54 items: bart116.bmp - bart169.bmp
 // Homer Valid: 37 items: homer88.bmp - homer124.bmp
+
+float removeRecursive(int map[], int w, int h, int x, int y)
+{
+	std::stack<int> s;
+
+	float amount = 0;
+	s.push(x);
+	s.push(y);
+
+	while (!s.empty()) {
+		y = s.top(); s.pop();
+		x = s.top(); s.pop();
+		map[x + y*w] = 0;
+		amount++;
+
+		if (x > 0 && map[(x-1) + y*w])     { s.push(x - 1); s.push(y); }
+		if (x < w - 1 && map[(x+1) + y*w]) { s.push(x + 1); s.push(y); }
+		if (y > 0 && map[x + (y-1)*w])     { s.push(x); s.push(y - 1); }
+		if (y < h - 1 && map[x + (y+1)*w]) { s.push(x); s.push(y + 1); }
+	}
+
+	return amount;
+}
+
+int getNumberOfArea(int map[], int w, int h, float min, float max)
+{
+	int count = 0;
+	float size = 0;
+
+	for (int x=0; x<w; x++) {
+		for (int y=0; y<h; y++) {
+			if (map[x + y*w]) {	
+				size = removeRecursive(map, w, h, x, y);
+ 
+				//printf("%f\n", size);
+
+				if (size > min && size < max)
+				{
+					count++;
+				}
+			}
+		}
+	}
+	return count;
+}
 
 // MAIN
 int main( int argc, char** argv )
@@ -53,10 +99,10 @@ int main( int argc, char** argv )
 	FILE *fp;
 
 	// Open a text file to store the feature vectors
-	fp = fopen ("apprentissage-home-bart.txt","w");
+	fp = fopen ("apprentissage-HBLOS.txt","w");
 
 	if(fp == NULL) {
-		perror("failed to open apprentissage-home-bart.txt");
+		perror("failed to open apprentissage-HBLOS.txt");
 		return EXIT_FAILURE;
 	}
 
@@ -64,7 +110,7 @@ int main( int argc, char** argv )
 	// IplImage structure contains several information of the image (See OpenCV manual).
 	IplImage *img 			= NULL;
 	IplImage *processed 	= NULL;
-	IplImage *threshold 		= NULL;
+	IplImage *threshold 	= NULL;
 
 	// OpenCV variable that stores the image width and height
 	CvSize tam;
@@ -94,8 +140,8 @@ int main( int argc, char** argv )
 	// Homer Train 62 items: homer1.bmp - homer62.bmp
 	// *****************************************************************************************************************************************
 
-	char path[2][80] = { {"Train/homer%03d.bmp"} , {"Train/bart%03d.bmp"} };
-	char name[2][80] = { {"Homer"}, {"Bart"} };
+	char path[NUMBER_OF_CLASS][80] = { {"Train/homer%03d.bmp"} , {"Train/bart%03d.bmp"}, {"Train/lisa%03d.bmp"}, {"Train/other%03d.bmp"}, {"Train/school%03d.bmp"} };
+	char name[NUMBER_OF_CLASS][80] = { {"Homer"}, {"Bart"}, {"Lisa"}, {"Other"}, {"School"} };
 
 	// Take all the image files at the range
 
@@ -103,8 +149,11 @@ int main( int argc, char** argv )
 	float numberPixelBlueHomer;
 	float numberPixelOrangeBart;
 	float numberPixelBlueBart;
+	float numberPixelRedLisa;
+	float numberWhiteAreaLisa;
+	bool isNewWhiteArea;
 
-	for (ii =0; ii<2; ii++)
+	for (ii =0; ii<NUMBER_OF_CLASS; ii++)
 	{
 		for ( iNum = 1; iNum <= 80; iNum++ )
 		{
@@ -143,6 +192,8 @@ int main( int argc, char** argv )
 			numberPixelBlueHomer = 0.0;
 			numberPixelOrangeBart = 0.0;
 			numberPixelBlueBart = 0.0;
+			numberPixelRedLisa = 0.0;
+			int mapWhiteArea[img->width * img->height];
 
 			// Loop that reads each image pixel
 			for( h = 0; h < img->height; h++ ) // rows
@@ -152,7 +203,7 @@ int main( int argc, char** argv )
 					// Read each channel and writes it into the blue, green and red variables. Notice that OpenCV considers BGR
 					blue  	= ( (uchar *)(img->imageData + h*img->widthStep) )[ w*img->nChannels + 0 ];
 					green 	= ( (uchar *)(img->imageData + h*img->widthStep) )[ w*img->nChannels + 1 ];
-					red   		= ( (uchar *)(img->imageData + h*img->widthStep) )[ w*img->nChannels + 2 ];
+					red   	= ( (uchar *)(img->imageData + h*img->widthStep) )[ w*img->nChannels + 2 ];
 
 					// Shows the pixel value at the screenl
 					//printf( "pixel[%d][%d]= %d %d %d \n", h, w, (int)blue, (int)green, (int)red );
@@ -180,8 +231,24 @@ int main( int argc, char** argv )
 					{
 						numberPixelBlueHomer++;
 					}
+
+					if ( blue>=0 && blue<=10 && green>=0 && green<=10 &&  red>=245 && red<=256 )
+					{
+						numberPixelRedLisa++;
+					}
+
+					if ( blue>=230 && blue<=256 && green>=230 && green<=256 &&  red>=230 && red<=256 )
+					{
+						mapWhiteArea[w+h*img->width] = 1;
+					}
+					else
+					{
+						mapWhiteArea[w+h*img->width] = 0;
+					}	
 				}
 			}
+
+			numberWhiteAreaLisa = getNumberOfArea(mapWhiteArea, img->width, img->height, (img->width * img->height) / 1000, (img->width * img->height) / 200);
 
 			// Lets make our counting somewhat independent on the image size...
 			// Compute the percentage of pixels of a given colour.
@@ -190,23 +257,28 @@ int main( int argc, char** argv )
 			numberPixelBlueBart  	= numberPixelBlueBart  / ( (int)img->height * (int)img->width );
 			numberPixelBeardHomer  	= numberPixelBeardHomer  / ( (int)img->height * (int)img->width );
 			numberPixelBlueHomer  	= numberPixelBlueHomer  / ( (int)img->height * (int)img->width );
+			numberPixelRedLisa      = numberPixelRedLisa / ( (int)img->height * (int)img->width );
 
 			// Store the feature value in the columns of the feature (matrix) vector
 			fVector[iNum][1] = numberPixelOrangeBart;
 			fVector[iNum][2] = numberPixelBlueBart;
 			fVector[iNum][3] = numberPixelBeardHomer;
 			fVector[iNum][4] = numberPixelBlueHomer;
+			fVector[iNum][5] = numberPixelRedLisa;
+			fVector[iNum][6] = numberWhiteAreaLisa;
 
 			// Here you can add more features to your feature vector by filling the other columns: fVector[iNum][3] = ???; fVector[iNum][4] = ???;
 
 			// Shows the feature vector at the screen
-			printf( "\n%d %f %f %f %f", iNum, fVector[iNum][1], fVector[iNum][2], fVector[iNum][3], fVector[iNum][4]);
+			printf( "\n%d %f %f %f %f %f %f", iNum, fVector[iNum][1], fVector[iNum][2], fVector[iNum][3], fVector[iNum][4], fVector[iNum][5], fVector[iNum][6]);
 
 			// And finally, store your features in a file
 			fprintf( fp, "%f,", fVector[iNum][1]);
 			fprintf( fp, "%f,", fVector[iNum][2]);
 			fprintf( fp, "%f,", fVector[iNum][3]);
 			fprintf( fp, "%f,", fVector[iNum][4]);
+			fprintf( fp, "%f,", fVector[iNum][5]);
+			fprintf( fp, "%f,", fVector[iNum][6]);
 
 			// IMPORTANT
 			// Do not forget the label....

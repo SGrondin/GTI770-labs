@@ -16,4 +16,24 @@ On peut donc voir que certaines primitives sont plus discrimitantes que d'autre.
 
 Question 3
 
-Ça dépend de la classe qu'on ajoute. Si c'est Lisa, il ne devrait pas trop y avoir de problèmes, mais si c'est Marge, ses cheveux sont du même bleu que les pantalons et souliers de Bart. Donc Marge créerait des collisions et des faux positifs/négatifs, mais pas la palette de couleurs de Lisa, car il contient un rouge assez unique.
+Oui, car on peut voir sur le graphe des caractéristiques de Bart et le graphe des caractéristique de Homer que les images de Lisa sont tous dans la même zone. Elles peuvent ainsi être facilement discriminées des images de Bart et Homer. Lisa cause peu de faux positifs ou de faux négatifs dans les primitives choisies précédemments pour les autres classes.
+
+Question 4
+
+On a ajouté 2 primitives pour mieux détecter Lisa et les autres primitives ont été gardées. Ces 2 primitives essaient de détecter la robe de Lisa ainsi que les perles de son collier. On peut voir qu'avec ces primitives, les images de Lisa peuvent être discriminées des autres images dans la plupart des cas.
+
+Question 5
+
+Oui, car on peut encore bien distinguer Homer de Other et Bart de Other. Ainsi même si les images de Other sont très variés, ils sont généralement assez différentes de Homer et Bart pour que l'on puisse bien les classifier.
+
+Question 6
+
+Étant que Other est trop diversifié pour avoir des primitives facile à identifier aucune primitive n'a été ajoutée.
+
+Question 7
+
+Non, car les primitives ne permettent pas de bien faire la distinction entre la classe School et Other. Nous n'avons pas pu identifier de primitives intéressantes pour ces 2 classes, car les images de ces classes n'ont pas vraiment de point en commun. Comme nous sommes en présence de 2 classes trop difficile à discrimer, il n'est pas vraiment possible de trouver de primitive simple pour les distinguer.
+
+Question 8
+
+Aucune modification a été faite.
