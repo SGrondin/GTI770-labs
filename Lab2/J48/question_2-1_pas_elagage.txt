@@ -1,0 +1,240 @@
+=== Run information ===
+
+Scheme:weka.classifiers.trees.J48 -U -M 2
+Relation:     spam-weka.filters.supervised.instance.Resample-B0.0-S1-Z50.0-weka.filters.supervised.instance.Resample-B0.0-S1-Z50.0
+Instances:    1150
+Attributes:   58
+              word_freq_make:
+              word_freq_address:
+              word_freq_all:
+              word_freq_3d:
+              word_freq_our:
+              word_freq_over:
+              word_freq_remove:
+              word_freq_internet:
+              word_freq_order:
+              word_freq_mail:
+              word_freq_receive:
+              word_freq_will:
+              word_freq_people:
+              word_freq_report:
+              word_freq_addresses:
+              word_freq_free:
+              word_freq_business:
+              word_freq_email:
+              word_freq_you:
+              word_freq_credit:
+              word_freq_your:
+              word_freq_font:
+              word_freq_000:
+              word_freq_money:
+              word_freq_hp:
+              word_freq_hpl:
+              word_freq_george:
+              word_freq_650:
+              word_freq_lab:
+              word_freq_labs:
+              word_freq_telnet:
+              word_freq_857:
+              word_freq_data:
+              word_freq_415:
+              word_freq_85:
+              word_freq_technology:
+              word_freq_1999:
+              word_freq_parts:
+              word_freq_pm:
+              word_freq_direct:
+              word_freq_cs:
+              word_freq_meeting:
+              word_freq_original:
+              word_freq_project:
+              word_freq_re:
+              word_freq_edu:
+              word_freq_table:
+              word_freq_conference:
+              char_freq_;:
+              char_freq_(:
+              char_freq_[:
+              char_freq_!:
+              char_freq_$:
+              char_freq_#:
+              capital_run_length_average:
+              capital_run_length_longest:
+              capital_run_length_total:
+              class
+Test mode:evaluate on training data
+
+=== Classifier model (full training set) ===
+
+J48 unpruned tree
+------------------
+
+word_freq_remove: <= 0
+|   word_freq_money: <= 0.06
+|   |   word_freq_000: <= 0.27
+|   |   |   word_freq_free: <= 0.16
+|   |   |   |   char_freq_!: <= 0.74
+|   |   |   |   |   word_freq_our: <= 0.71
+|   |   |   |   |   |   char_freq_$: <= 0.075
+|   |   |   |   |   |   |   char_freq_#: <= 0.013
+|   |   |   |   |   |   |   |   word_freq_hpl: <= 0.05
+|   |   |   |   |   |   |   |   |   word_freq_technology: <= 0.43
+|   |   |   |   |   |   |   |   |   |   capital_run_length_longest: <= 13: 0 (293.0/4.0)
+|   |   |   |   |   |   |   |   |   |   capital_run_length_longest: > 13
+|   |   |   |   |   |   |   |   |   |   |   word_freq_parts: <= 0
+|   |   |   |   |   |   |   |   |   |   |   |   word_freq_edu: <= 0
+|   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_our: <= 0.08
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_people: <= 0.48
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   capital_run_length_average: <= 2.516
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   capital_run_length_average: <= 2.386: 0 (10.0)
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   capital_run_length_average: > 2.386
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_data: <= 0.11: 1 (3.0)
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_data: > 0.11: 0 (3.0)
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   capital_run_length_average: > 2.516: 0 (40.0)
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_people: > 0.48
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_people: <= 1.72: 1 (3.0)
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_people: > 1.72: 0 (2.0)
+|   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_our: > 0.08
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_all: <= 0.17: 1 (2.0)
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   word_freq_all: > 0.17: 0 (2.0)
+|   |   |   |   |   |   |   |   |   |   |   |   word_freq_edu: > 0: 0 (38.0)
+|   |   |   |   |   |   |   |   |   |   |   word_freq_parts: > 0: 0 (8.0)
+|   |   |   |   |   |   |   |   |   word_freq_technology: > 0.43
+|   |   |   |   |   |   |   |   |   |   word_freq_your: <= 1.61
+|   |   |   |   |   |   |   |   |   |   |   capital_run_length_longest: <= 26: 0 (20.0)
+|   |   |   |   |   |   |   |   |   |   |   capital_run_length_longest: > 26: 1 (2.0)
+|   |   |   |   |   |   |   |   |   |   word_freq_your: > 1.61: 1 (2.0)
+|   |   |   |   |   |   |   |   word_freq_hpl: > 0.05: 0 (160.0)
+|   |   |   |   |   |   |   char_freq_#: > 0.013
+|   |   |   |   |   |   |   |   word_freq_free: <= 0.01
+|   |   |   |   |   |   |   |   |   word_freq_font: <= 8.58: 0 (22.0)
+|   |   |   |   |   |   |   |   |   word_freq_font: > 8.58: 1 (2.0)
+|   |   |   |   |   |   |   |   word_freq_free: > 0.01: 1 (2.0)
+|   |   |   |   |   |   char_freq_$: > 0.075
+|   |   |   |   |   |   |   word_freq_re: <= 0.86
+|   |   |   |   |   |   |   |   capital_run_length_average: <= 5.681: 0 (20.0/1.0)
+|   |   |   |   |   |   |   |   capital_run_length_average: > 5.681: 1 (2.0)
+|   |   |   |   |   |   |   word_freq_re: > 0.86: 1 (4.0)
+|   |   |   |   |   word_freq_our: > 0.71
+|   |   |   |   |   |   word_freq_order: <= 0.24
+|   |   |   |   |   |   |   word_freq_address: <= 0.54
+|   |   |   |   |   |   |   |   word_freq_all: <= 2.12
+|   |   |   |   |   |   |   |   |   capital_run_length_average: <= 3.315: 0 (45.0/2.0)
+|   |   |   |   |   |   |   |   |   capital_run_length_average: > 3.315
+|   |   |   |   |   |   |   |   |   |   word_freq_3d: <= 0.1: 1 (4.0)
+|   |   |   |   |   |   |   |   |   |   word_freq_3d: > 0.1: 0 (2.0)
+|   |   |   |   |   |   |   |   word_freq_all: > 2.12: 1 (3.0)
+|   |   |   |   |   |   |   word_freq_address: > 0.54: 1 (4.0)
+|   |   |   |   |   |   word_freq_order: > 0.24: 1 (4.0)
+|   |   |   |   char_freq_!: > 0.74
+|   |   |   |   |   word_freq_re: <= 0.64
+|   |   |   |   |   |   capital_run_length_average: <= 1.761: 0 (5.0)
+|   |   |   |   |   |   capital_run_length_average: > 1.761: 1 (19.0/2.0)
+|   |   |   |   |   word_freq_re: > 0.64: 0 (3.0)
+|   |   |   word_freq_free: > 0.16
+|   |   |   |   word_freq_hp: <= 0.05
+|   |   |   |   |   word_freq_edu: <= 0.17
+|   |   |   |   |   |   word_freq_meeting: <= 0.34
+|   |   |   |   |   |   |   word_freq_address: <= 0.02
+|   |   |   |   |   |   |   |   word_freq_people: <= 0.3
+|   |   |   |   |   |   |   |   |   word_freq_george: <= 0.73
+|   |   |   |   |   |   |   |   |   |   word_freq_1999: <= 0.15
+|   |   |   |   |   |   |   |   |   |   |   word_freq_email: <= 0.28
+|   |   |   |   |   |   |   |   |   |   |   |   char_freq_(: <= 0.29: 1 (23.0/1.0)
+|   |   |   |   |   |   |   |   |   |   |   |   char_freq_(: > 0.29: 0 (3.0/1.0)
+|   |   |   |   |   |   |   |   |   |   |   word_freq_email: > 0.28
+|   |   |   |   |   |   |   |   |   |   |   |   word_freq_email: <= 1.19: 0 (4.0)
+|   |   |   |   |   |   |   |   |   |   |   |   word_freq_email: > 1.19: 1 (2.0)
+|   |   |   |   |   |   |   |   |   |   word_freq_1999: > 0.15: 0 (2.0)
+|   |   |   |   |   |   |   |   |   word_freq_george: > 0.73: 0 (3.0)
+|   |   |   |   |   |   |   |   word_freq_people: > 0.3: 0 (4.0)
+|   |   |   |   |   |   |   word_freq_address: > 0.02: 1 (33.0)
+|   |   |   |   |   |   word_freq_meeting: > 0.34: 0 (4.0)
+|   |   |   |   |   word_freq_edu: > 0.17: 0 (6.0)
+|   |   |   |   word_freq_hp: > 0.05: 0 (19.0)
+|   |   word_freq_000: > 0.27
+|   |   |   word_freq_hp: <= 1.61: 1 (23.0/1.0)
+|   |   |   word_freq_hp: > 1.61: 0 (3.0)
+|   word_freq_money: > 0.06
+|   |   capital_run_length_longest: <= 9: 0 (8.0/1.0)
+|   |   capital_run_length_longest: > 9
+|   |   |   word_freq_1999: <= 0.1: 1 (82.0)
+|   |   |   word_freq_1999: > 0.1
+|   |   |   |   word_freq_over: <= 0.23: 0 (3.0)
+|   |   |   |   word_freq_over: > 0.23: 1 (2.0)
+word_freq_remove: > 0
+|   word_freq_your: <= 0.26
+|   |   word_freq_project: <= 0.08
+|   |   |   word_freq_internet: <= 1.35
+|   |   |   |   word_freq_make: <= 0.05
+|   |   |   |   |   word_freq_you: <= 2.33: 1 (14.0)
+|   |   |   |   |   word_freq_you: > 2.33
+|   |   |   |   |   |   word_freq_you: <= 3.2: 0 (2.0)
+|   |   |   |   |   |   word_freq_you: > 3.2: 1 (2.0)
+|   |   |   |   word_freq_make: > 0.05: 1 (2.0/1.0)
+|   |   |   word_freq_internet: > 1.35: 0 (4.0)
+|   |   word_freq_project: > 0.08: 0 (2.0)
+|   word_freq_your: > 0.26: 1 (171.0/4.0)
+
+Number of Leaves  : 	54
+
+Size of the tree : 	107
+
+
+Time taken to build model: 0.17 seconds
+
+=== Evaluation on training set ===
+=== Summary ===
+
+Correctly Classified Instances        1132               98.4348 %
+Incorrectly Classified Instances        18                1.5652 %
+Kappa statistic                          0.9659
+Mean absolute error                      0.0286
+Root mean squared error                  0.1196
+Relative absolute error                  6.2369 %
+Root relative squared error             24.9757 %
+Total Number of Instances             1150     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.978     0.012      0.978     0.978     0.978      0.994    1
+                 0.988     0.022      0.988     0.988     0.988      0.994    0
+Weighted Avg.    0.984     0.018      0.984     0.984     0.984      0.994
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 401   9 |   a = 1
+   9 731 |   b = 0
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     spam-weka.filters.supervised.instance.Resample-B0.0-S1-Z50.0-no-replacement-V
+Instances:     unknown (yet). Reading incrementally
+Attributes:   58
+
+=== Summary ===
+
+Correctly Classified Instances        2090               90.8301 %
+Incorrectly Classified Instances       211                9.1699 %
+Kappa statistic                          0.8061
+Mean absolute error                      0.1032
+Root mean squared error                  0.298 
+Total Number of Instances             2301     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.875     0.071      0.886     0.875     0.88       0.897    1
+                 0.929     0.125      0.922     0.929     0.926      0.897    0
+Weighted Avg.    0.908     0.104      0.908     0.908     0.908      0.897
+
+=== Confusion Matrix ===
+
+    a    b   <-- classified as
+  777  111 |    a = 1
+  100 1313 |    b = 0
+
