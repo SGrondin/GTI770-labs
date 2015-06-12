@@ -62,7 +62,7 @@ Attributes:   58
               capital_run_length_longest:
               capital_run_length_total:
               class
-Test mode:evaluate on training data
+Test mode:user supplied test set: size unknown (reading incrementally)
 
 === Classifier model (full training set) ===
 
@@ -176,46 +176,14 @@ word_freq_remove: > 0
 |   |   word_freq_project: > 0.08: 0 (2.0)
 |   word_freq_your: > 0.26: 1 (171.0/4.0)
 
-Number of Leaves  : 	54
+Number of Leaves  :   54
 
-Size of the tree : 	107
-
-
-Time taken to build model: 0.17 seconds
-
-=== Evaluation on training set ===
-=== Summary ===
-
-Correctly Classified Instances        1132               98.4348 %
-Incorrectly Classified Instances        18                1.5652 %
-Kappa statistic                          0.9659
-Mean absolute error                      0.0286
-Root mean squared error                  0.1196
-Relative absolute error                  6.2369 %
-Root relative squared error             24.9757 %
-Total Number of Instances             1150     
-
-=== Detailed Accuracy By Class ===
-
-               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
-                 0.978     0.012      0.978     0.978     0.978      0.994    1
-                 0.988     0.022      0.988     0.988     0.988      0.994    0
-Weighted Avg.    0.984     0.018      0.984     0.984     0.984      0.994
-
-=== Confusion Matrix ===
-
-   a   b   <-- classified as
- 401   9 |   a = 1
-   9 731 |   b = 0
+Size of the tree :  107
 
 
-=== Re-evaluation on test set ===
+Time taken to build model: 0.12 seconds
 
-User supplied test set
-Relation:     spam-weka.filters.supervised.instance.Resample-B0.0-S1-Z50.0-no-replacement-V
-Instances:     unknown (yet). Reading incrementally
-Attributes:   58
-
+=== Evaluation on test set ===
 === Summary ===
 
 Correctly Classified Instances        2090               90.8301 %
@@ -223,6 +191,8 @@ Incorrectly Classified Instances       211                9.1699 %
 Kappa statistic                          0.8061
 Mean absolute error                      0.1032
 Root mean squared error                  0.298 
+Relative absolute error                 22.0936 %
+Root relative squared error             61.1056 %
 Total Number of Instances             2301     
 
 === Detailed Accuracy By Class ===

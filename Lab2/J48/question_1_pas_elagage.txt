@@ -62,7 +62,7 @@ Attributes:   58
               capital_run_length_longest:
               capital_run_length_total:
               class
-Test mode:evaluate on training data
+Test mode:user supplied test set: size unknown (reading incrementally)
 
 === Classifier model (full training set) ===
 
@@ -239,39 +239,7 @@ Size of the tree :  163
 
 Time taken to build model: 0.13 seconds
 
-=== Evaluation on training set ===
-=== Summary ===
-
-Correctly Classified Instances        2253               97.9565 %
-Incorrectly Classified Instances        47                2.0435 %
-Kappa statistic                          0.9563
-Mean absolute error                      0.0368
-Root mean squared error                  0.1356
-Relative absolute error                  7.8379 %
-Root relative squared error             27.997  %
-Total Number of Instances             2300     
-
-=== Detailed Accuracy By Class ===
-
-               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
-                 0.969     0.014      0.977     0.969     0.973      0.992    1
-                 0.986     0.031      0.981     0.986     0.984      0.992    0
-Weighted Avg.    0.98      0.025      0.98      0.98      0.98       0.992
-
-=== Confusion Matrix ===
-
-    a    b   <-- classified as
-  836   27 |    a = 1
-   20 1417 |    b = 0
-
-
-=== Re-evaluation on test set ===
-
-User supplied test set
-Relation:     spam-weka.filters.supervised.instance.Resample-B0.0-S1-Z50.0-no-replacement-V
-Instances:     unknown (yet). Reading incrementally
-Attributes:   58
-
+=== Evaluation on test set ===
 === Summary ===
 
 Correctly Classified Instances        2163               94.0026 %
@@ -279,66 +247,8 @@ Incorrectly Classified Instances       138                5.9974 %
 Kappa statistic                          0.8733
 Mean absolute error                      0.0723
 Root mean squared error                  0.2309
-Total Number of Instances             2301     
-
-=== Detailed Accuracy By Class ===
-
-               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
-                 0.919     0.047      0.925     0.919     0.922      0.952    1
-                 0.953     0.081      0.949     0.953     0.951      0.952    0
-Weighted Avg.    0.94      0.068      0.94      0.94      0.94       0.952
-
-=== Confusion Matrix ===
-
-    a    b   <-- classified as
-  816   72 |    a = 1
-   66 1347 |    b = 0
-
-
-=== Re-evaluation on test set ===
-
-User supplied test set
-Relation:     spam-weka.filters.supervised.instance.Resample-B0.0-S1-Z50.0-no-replacement-V
-Instances:     unknown (yet). Reading incrementally
-Attributes:   58
-
-=== Summary ===
-
-Correctly Classified Instances        2163               94.0026 %
-Incorrectly Classified Instances       138                5.9974 %
-Kappa statistic                          0.8733
-Mean absolute error                      0.0723
-Root mean squared error                  0.2309
-Total Number of Instances             2301     
-
-=== Detailed Accuracy By Class ===
-
-               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
-                 0.919     0.047      0.925     0.919     0.922      0.952    1
-                 0.953     0.081      0.949     0.953     0.951      0.952    0
-Weighted Avg.    0.94      0.068      0.94      0.94      0.94       0.952
-
-=== Confusion Matrix ===
-
-    a    b   <-- classified as
-  816   72 |    a = 1
-   66 1347 |    b = 0
-
-
-=== Re-evaluation on test set ===
-
-User supplied test set
-Relation:     spam-weka.filters.supervised.instance.Resample-B0.0-S1-Z50.0-no-replacement-V
-Instances:     unknown (yet). Reading incrementally
-Attributes:   58
-
-=== Summary ===
-
-Correctly Classified Instances        2163               94.0026 %
-Incorrectly Classified Instances       138                5.9974 %
-Kappa statistic                          0.8733
-Mean absolute error                      0.0723
-Root mean squared error                  0.2309
+Relative absolute error                 15.333  %
+Root relative squared error             47.4271 %
 Total Number of Instances             2301     
 
 === Detailed Accuracy By Class ===
