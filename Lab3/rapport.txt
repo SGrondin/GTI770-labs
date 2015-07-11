@@ -1,0 +1,5 @@
+#3
+
+a) On peut observer qu'à partir d'environ 225, le taux d'erreur sur l'ensemble de test stagne. Étant donné que le nombre d'itération est à 2000 ce qui largement au-dessus, on peut donc affirmer sans problème que l'on est dans une situation de sur-apprentissage.
+
+b) La valeur idéal est autour de 225 puisque c'est à ce point on obtient la meilleur performance sur l'ensemble de test.

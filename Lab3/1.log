@@ -1,0 +1,9 @@
+JavaNNS Log File
+opened at: Fri Jul 10 02:00:12 EDT 2015
+java.lang.Exception: The unit number on y-axis has to be an integer value
+	at javanns.AnalyzerPanel.getYUnit(javanns/Analyzer.java:312)
+	at javanns.Analyzer.run(javanns/Analyzer.java:854)
+	at java.lang.Thread.run(Thread.java:701)
+java.lang.Exception: Error would be constant without training
+	at javanns.Analyzer.run(javanns/Analyzer.java:927)
+	at java.lang.Thread.run(Thread.java:701)
