@@ -4,30 +4,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.meta.Vote;
-import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
+import weka.filters.unsupervised.attribute.Standardize;
 
 
 public class PredictMusic {
 
 	
 	public static void main(String[] args) throws Exception {
-		String step = "build";
+		String step = "evaluate";
 		String inBuildFolder = "../Sample/";
 		String inEvalFolder = "../Sample/";
 		String modelFolder = "../Model/";
 		ObjectOutputStream oos;
 		ObjectInputStream ois;
-		double[] result;
 		Instances combined;
 		
 		String folder = "build".equals(step) ? inBuildFolder : inEvalFolder;
+		
 		Instances jmirmfccs = DataSource.read(folder + "msd-jmirmfccs_dev.arff");
 		Instances marsyas = DataSource.read(folder + "msd-marsyas_dev_new.arff");
 		Instances ssd = DataSource.read(folder + "msd-ssd_dev.arff");
@@ -48,7 +49,11 @@ public class PredictMusic {
 			oos.close();
 			
 			// Modele pour KNN
-			Classifier knn = strategyKNN(jmirmfccs, marsyas, ssd);
+			Instances s_jmirmfccs = standardize(jmirmfccs, jmirmfccs);
+			Instances s_marsyas = standardize(marsyas, marsyas);
+			Instances s_ssd = standardize(ssd, ssd);
+			
+			Classifier knn = strategyKNN(s_jmirmfccs, s_marsyas, s_ssd);
 			oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "knn.model"));
 			oos.writeObject(knn);
 			oos.flush();
@@ -59,27 +64,28 @@ public class PredictMusic {
 			// Les trois premiers modeles sont utilisent ensemble pour 2 classificateurs
 			combined = mergeInstances(jmirmfccs, marsyas, ssd);
 			
+			// Bayes !
 			ois = new ObjectInputStream(new FileInputStream(modelFolder + "bayes.model"));
 			Classifier classifier = (Classifier) ois.readObject();
 			
-			result = classifyInstances(classifier, combined);
-			String a = combined.attribute(combined.classIndex()).value((int) result[0]);
-			String e = combined.firstInstance().stringValue(combined.classIndex());
+			Evaluation evaluation = new Evaluation(combined);
+			evaluation.evaluateModel(classifier, combined);
+			System.out.println(evaluation.toSummaryString());
 			
-			System.out.println("Predicted : " + a + " Expected : " + e);
+			// KNN !
+			Instances s_jmirmfccs = standardize(jmirmfccs, jmirmfccs);
+			Instances s_marsyas = standardize(marsyas, marsyas);
+			Instances s_ssd = standardize(ssd, ssd);
+			combined = mergeInstances(s_jmirmfccs, s_marsyas, s_ssd);
+			
+			ois = new ObjectInputStream(new FileInputStream(modelFolder + "knn.model"));
+			classifier = (Classifier) ois.readObject();
+			
+			evaluation = new Evaluation(combined);
+			evaluation.evaluateModel(classifier, combined);
+			System.out.println(evaluation.toSummaryString());
 		}
 		
-	}
-	
-	private static double[] classifyInstances(Classifier classifier, Instances inst) throws Exception {
-		double[] result = new double[inst.numInstances()];
-		
-		for (int i=0; i<result.length; i++) {
-			Instance ins = inst.instance(i);
-			result[i] = classifier.classifyInstance(ins);
-		}
-		
-		return result;
 	}
 	
 	private static Classifier strategyKNN(Instances... set) throws Exception {
@@ -89,14 +95,14 @@ public class PredictMusic {
 			Instances inst = set[i];
 			IBk ibk = new IBk();
 			ibk.setOptions(new String[]{ "-K", "3", "-W", "0", "-A", "weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\"" });
-			ibk.buildClassifier(inst);
-			classifiers[i] = ibk;
+			
+			Classifier classifier = new AttributeClassifier(ibk);
+			classifier.buildClassifier(inst);
+			classifiers[i] = classifier;
 		}
 		
 		Vote vote = new Vote();
-		vote.setOptions(new String[] { "-R", "MED" });
 		vote.setClassifiers(classifiers);
-		
 		return vote;
 	}
 	
@@ -107,14 +113,14 @@ public class PredictMusic {
 			Instances inst = set[i];
 			NaiveBayes bayes = new NaiveBayes();
 			bayes.setOptions(new String[]{ "-D" });
-			bayes.buildClassifier(inst);
-			classifiers[i] = bayes;
+			
+			Classifier classifier = new AttributeClassifier(bayes);
+			classifier.buildClassifier(inst);
+			classifiers[i] = classifier;
 		}
 		
 		Vote vote = new Vote();
-		vote.setOptions(new String[] { "-R", "MED" });
 		vote.setClassifiers(classifiers);
-		
 		return vote;
 	}
 
@@ -147,5 +153,11 @@ public class PredictMusic {
 		instNew.setClassIndex(instNew.numAttributes() - 1);
 		
 		return instNew;
+	}
+	
+	private static Instances standardize(Instances base, Instances unstandardize) throws Exception {
+		Standardize standardize = new Standardize();
+		standardize.setInputFormat(base);
+		return Filter.useFilter(unstandardize, standardize);
 	}
 }
