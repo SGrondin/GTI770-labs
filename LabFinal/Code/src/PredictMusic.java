@@ -16,8 +16,6 @@ import weka.filters.unsupervised.attribute.Standardize;
 
 
 public class PredictMusic {
-
-	
 	public static void main(String[] args) throws Exception {
 		String step = "evaluate";
 		String inBuildFolder = "../Sample/";
@@ -35,25 +33,25 @@ public class PredictMusic {
 		Instances rh = DataSource.read(folder + "msd-rh_dev_new.arff");
 		
 		// On enlève les attributes textes qui ne sont pas pertinents //
-		jmirmfccs = removeIdentifier(jmirmfccs);
-		marsyas = removeIdentifier(marsyas);
-		ssd = removeIdentifier(ssd);
-		rh = removeIdentifier(rh);
+		jmirmfccs = InstanceUtils.removeIdentifier(jmirmfccs);
+		marsyas = InstanceUtils.removeIdentifier(marsyas);
+		ssd = InstanceUtils.removeIdentifier(ssd);
+		rh = InstanceUtils.removeIdentifier(rh);
 		
 		if ("build".equals(step)) {
 			// Modele pour Bayes
-			Classifier bayes = strategyBayes(jmirmfccs, marsyas, ssd);
+			Classifier bayes = Strategy.strategyBayes(jmirmfccs, marsyas, ssd);
 			oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "bayes.model"));
 			oos.writeObject(bayes);
 			oos.flush();
 			oos.close();
 			
 			// Modele pour KNN
-			Instances s_jmirmfccs = standardize(jmirmfccs, jmirmfccs);
-			Instances s_marsyas = standardize(marsyas, marsyas);
-			Instances s_ssd = standardize(ssd, ssd);
+			Instances s_jmirmfccs = InstanceUtils.standardize(jmirmfccs, jmirmfccs);
+			Instances s_marsyas = InstanceUtils.standardize(marsyas, marsyas);
+			Instances s_ssd = InstanceUtils.standardize(ssd, ssd);
 			
-			Classifier knn = strategyKNN(s_jmirmfccs, s_marsyas, s_ssd);
+			Classifier knn = Strategy.strategyKNN(s_jmirmfccs, s_marsyas, s_ssd);
 			oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "knn.model"));
 			oos.writeObject(knn);
 			oos.flush();
@@ -62,7 +60,7 @@ public class PredictMusic {
 		
 		if ("evaluate".equals(step)) {
 			// Les trois premiers modeles sont utilisent ensemble pour 2 classificateurs
-			combined = mergeInstances(jmirmfccs, marsyas, ssd);
+			combined = InstanceUtils.mergeInstances(jmirmfccs, marsyas, ssd);
 			
 			// Bayes !
 			ois = new ObjectInputStream(new FileInputStream(modelFolder + "bayes.model"));
@@ -73,10 +71,10 @@ public class PredictMusic {
 			System.out.println(evaluation.toSummaryString());
 			
 			// KNN !
-			Instances s_jmirmfccs = standardize(jmirmfccs, jmirmfccs);
-			Instances s_marsyas = standardize(marsyas, marsyas);
-			Instances s_ssd = standardize(ssd, ssd);
-			combined = mergeInstances(s_jmirmfccs, s_marsyas, s_ssd);
+			Instances s_jmirmfccs = InstanceUtils.standardize(jmirmfccs, jmirmfccs);
+			Instances s_marsyas = InstanceUtils.standardize(marsyas, marsyas);
+			Instances s_ssd = InstanceUtils.standardize(ssd, ssd);
+			combined = InstanceUtils.mergeInstances(s_jmirmfccs, s_marsyas, s_ssd);
 			
 			ois = new ObjectInputStream(new FileInputStream(modelFolder + "knn.model"));
 			classifier = (Classifier) ois.readObject();
@@ -86,78 +84,5 @@ public class PredictMusic {
 			System.out.println(evaluation.toSummaryString());
 		}
 		
-	}
-	
-	private static Classifier strategyKNN(Instances... set) throws Exception {
-		Classifier[] classifiers = new Classifier[set.length];
-		
-		for (int i=0; i<set.length; i++) {
-			Instances inst = set[i];
-			IBk ibk = new IBk();
-			ibk.setOptions(new String[]{ "-K", "3", "-W", "0", "-A", "weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\"" });
-			
-			Classifier classifier = new AttributeClassifier(ibk);
-			classifier.buildClassifier(inst);
-			classifiers[i] = classifier;
-		}
-		
-		Vote vote = new Vote();
-		vote.setClassifiers(classifiers);
-		return vote;
-	}
-	
-	private static Classifier strategyBayes(Instances... set) throws Exception {
-		Classifier[] classifiers = new Classifier[set.length];
-		
-		for (int i=0; i<set.length; i++) {
-			Instances inst = set[i];
-			NaiveBayes bayes = new NaiveBayes();
-			bayes.setOptions(new String[]{ "-D" });
-			
-			Classifier classifier = new AttributeClassifier(bayes);
-			classifier.buildClassifier(inst);
-			classifiers[i] = classifier;
-		}
-		
-		Vote vote = new Vote();
-		vote.setClassifiers(classifiers);
-		return vote;
-	}
-
-	private static Instances mergeInstances(Instances... set) throws Exception {
-		Instances result = set[0];
-		
-		for (int i=1; i<set.length; i++) {
-			// On enleve l'attribut de classe pour eviter les erreurs d'attribut
-			// non unique.
-			Remove remove = new Remove();
-			remove.setOptions(new String[]{ "-R", set[i].numAttributes() + "" });
-			remove.setInputFormat(set[i]);
-			
-			Instances instNew = Filter.useFilter(set[i], remove);
-			
-			// On merge avec l'ensemble que l'on a deja.
-			result = Instances.mergeInstances(instNew, result);
-		}
-		
-		result.setClassIndex(result.numAttributes() - 1);
-		return result;
-	}
-	
-	private static Instances removeIdentifier(Instances inst) throws Exception {
-		Remove remove = new Remove();
-		remove.setOptions(new String[]{ "-R", "1,2" });
-		remove.setInputFormat(inst);
-		
-		Instances instNew = Filter.useFilter(inst, remove);
-		instNew.setClassIndex(instNew.numAttributes() - 1);
-		
-		return instNew;
-	}
-	
-	private static Instances standardize(Instances base, Instances unstandardize) throws Exception {
-		Standardize standardize = new Standardize();
-		standardize.setInputFormat(base);
-		return Filter.useFilter(unstandardize, standardize);
 	}
 }
