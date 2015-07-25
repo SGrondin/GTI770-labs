@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -10,7 +11,7 @@ import weka.core.Instances;
 
 public class PredictMusic {
 	public static void main(String[] args) throws Exception {
-		boolean build = true;
+		boolean build = false;
 		boolean evaluate = true;
 		
 		String inBuildFolder = "../Sample/";
@@ -22,14 +23,16 @@ public class PredictMusic {
 		
 		InstanceUtils.standardize(buildModel, evalModel);
 		
+		FileOutputStream outStream = new FileOutputStream(new File("../label_resultat.txt"));
+		
 		if (build)
 			buildModel(buildModel, modelFolder);
 		
 		if (evaluate)
-			evaluateModel(buildModel, evalModel, modelFolder);
+			evaluateModel(buildModel, evalModel, modelFolder, outStream);
 	}
 	
-	private static void evaluateModel(DataModel buildModel, DataModel evalModel, String modelFolder) throws Exception {
+	private static void evaluateModel(DataModel buildModel, DataModel evalModel, String modelFolder, FileOutputStream outStream) throws Exception {
 		System.out.println("Evaluating All Model ...");
 		
 		Instances combined = InstanceUtils.mergeInstances(evalModel.jmirmfccs, evalModel.marsyas, evalModel.ssd, evalModel.rh);
@@ -38,8 +41,15 @@ public class PredictMusic {
 		ois.close();
 		
 		Evaluation evaluation = new Evaluation(combined);
-		evaluation.evaluateModel(classifier, combined);
+		double[] result = evaluation.evaluateModel(classifier, combined);
 		System.out.println(evaluation.toSummaryString());
+		
+		System.out.println("Writing results to file ...");
+		
+		for (int i=0; i<result.length; i++) {
+			String res = combined.classAttribute().value((int)result[i]) + "\n";
+			outStream.write(res.getBytes());
+		}
 	}
 	
 	private static void buildModel(DataModel buildModel, String modelFolder) throws Exception {
