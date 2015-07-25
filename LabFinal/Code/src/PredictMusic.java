@@ -5,11 +5,12 @@ import java.io.ObjectOutputStream;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.meta.Vote;
 import weka.core.Instances;
 
 public class PredictMusic {
 	public static void main(String[] args) throws Exception {
-		boolean build = true;
+		boolean build = false;
 		boolean evaluate = true;
 		
 		String inBuildFolder = "../Sample/";
@@ -19,6 +20,8 @@ public class PredictMusic {
 		DataModel buildModel = new DataModel(inBuildFolder);
 		DataModel evalModel = new DataModel(inEvalFolder);
 
+		InstanceUtils.standardize(buildModel, evalModel);
+		
 		if (build)
 			buildModel(buildModel, modelFolder);
 		
@@ -27,30 +30,14 @@ public class PredictMusic {
 	}
 	
 	private static void evaluateModel(DataModel buildModel, DataModel evalModel, String modelFolder) throws Exception {
-		Instances combined;
-		ObjectInputStream ois;
+		System.out.println("Evaluating All Model ...");
 		
-		// Les trois premiers modeles sont utilisent ensemble pour 2 classificateurs
-		combined = InstanceUtils.mergeInstances(evalModel.jmirmfccs, evalModel.marsyas, evalModel.ssd);
-		
-		// Bayes !
-		ois = new ObjectInputStream(new FileInputStream(modelFolder + "bayes.model"));
+		Instances combined = InstanceUtils.mergeInstances(evalModel.jmirmfccs, evalModel.marsyas, evalModel.ssd, evalModel.rh);
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(modelFolder + "all.model"));
 		Classifier classifier = (Classifier) ois.readObject();
+		ois.close();
 		
 		Evaluation evaluation = new Evaluation(combined);
-		evaluation.evaluateModel(classifier, combined);
-		System.out.println(evaluation.toSummaryString());
-		
-		// KNN !
-		Instances s_jmirmfccs = InstanceUtils.standardize(buildModel.jmirmfccs, evalModel.jmirmfccs);
-		Instances s_marsyas = InstanceUtils.standardize(buildModel.marsyas, evalModel.marsyas);
-		Instances s_ssd = InstanceUtils.standardize(buildModel.ssd, evalModel.ssd);
-		combined = InstanceUtils.mergeInstances(s_jmirmfccs, s_marsyas, s_ssd);
-		
-		ois = new ObjectInputStream(new FileInputStream(modelFolder + "knn.model"));
-		classifier = (Classifier) ois.readObject();
-		
-		evaluation = new Evaluation(combined);
 		evaluation.evaluateModel(classifier, combined);
 		System.out.println(evaluation.toSummaryString());
 	}
@@ -58,12 +45,17 @@ public class PredictMusic {
 	private static void buildModel(DataModel buildModel, String modelFolder) throws Exception {
 		ObjectOutputStream oos;
 		
+		System.out.println("Building Bayes Model ...");
+		
 		// Modele pour Bayes
 		Classifier bayes = Strategy.strategyBayes(buildModel.jmirmfccs, buildModel.marsyas, buildModel.ssd);
+		
 		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "bayes.model"));
 		oos.writeObject(bayes);
 		oos.flush();
 		oos.close();
+		
+		System.out.println("Building KNN Model ...");
 		
 		// Modele pour KNN
 		Instances standard_jmirmfccs = InstanceUtils.standardize(buildModel.jmirmfccs, buildModel.jmirmfccs);
@@ -71,8 +63,28 @@ public class PredictMusic {
 		Instances standard_ssd = InstanceUtils.standardize(buildModel.ssd, buildModel.ssd);
 		
 		Classifier knn = Strategy.strategyKNN(standard_jmirmfccs, standard_marsyas, standard_ssd);
+		
 		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "knn.model"));
 		oos.writeObject(knn);
+		oos.flush();
+		oos.close();
+		
+		System.out.println("Building SVM Model ...");
+		
+		// Modele pour SVM
+		Classifier svm = Strategy.strategySVM(buildModel.rh);
+		
+		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "svm.model"));
+		oos.writeObject(svm);
+		oos.flush();
+		oos.close();
+		
+		// Model qui utilise les trois strategies
+		Vote combinedModel = new Vote();
+		combinedModel.setClassifiers(new Classifier[] { bayes, knn, svm });
+		
+		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "all.model"));
+		oos.writeObject(combinedModel);
 		oos.flush();
 		oos.close();
 	}

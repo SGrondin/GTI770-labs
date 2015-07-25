@@ -16,9 +16,11 @@ public class AttributeClassifier extends Classifier {
 	
 	private Classifier classifier;
 	private List<String> attributes;
+	private Instances dataset;
 	
 	public AttributeClassifier(Classifier classifier) {
 		this.classifier = classifier;
+		
 	}
 	
 	public void buildClassifier(Instances inst) throws Exception {
@@ -35,13 +37,23 @@ public class AttributeClassifier extends Classifier {
 
 	public double classifyInstance(Instance instP) throws Exception {
 		Instance inst = new Instance(instP);
+		boolean initDataset = this.dataset == null;
+		
+		if (initDataset) {
+			this.dataset = new Instances(instP.dataset());
+		}
 		
 		for (int i=inst.numAttributes() - 1; i>=0; i--) {
 			if (!this.attributes.contains(instP.attribute(i).name())) {
 				inst.deleteAttributeAt(i);
+				
+				if (initDataset) {
+					this.dataset.deleteAttributeAt(i);
+				}
 			}
 		}
 		
+		inst.setDataset(this.dataset);
 		return this.classifier.classifyInstance(inst);
 	}
 	
@@ -52,13 +64,23 @@ public class AttributeClassifier extends Classifier {
 
 	public double[] distributionForInstance(Instance instP) throws Exception {
 		Instance inst = new Instance(instP);
+		boolean initDataset = this.dataset == null;
+		
+		if (initDataset) {
+			this.dataset = new Instances(instP.dataset());
+		}
 		
 		for (int i=inst.numAttributes() - 1; i>=0; i--) {
 			if (!this.attributes.contains(instP.attribute(i).name())) {
 				inst.deleteAttributeAt(i);
+				
+				if (initDataset) {
+					this.dataset.deleteAttributeAt(i);
+				}
 			}
 		}
 		
+		inst.setDataset(this.dataset);
 		return this.classifier.distributionForInstance(inst);
 	}
 

@@ -21,5 +21,11 @@ public class DataModel {
 		this.marsyas = InstanceUtils.removeIdentifier(this.marsyas);
 		this.ssd = InstanceUtils.removeIdentifier(this.ssd);
 		this.rh = InstanceUtils.removeIdentifier(this.rh);
+		
+		// On rend unique les noms d'attributs //
+		this.rh = InstanceUtils.prefixAttributeName("rh_", this.rh);
+		this.jmirmfccs = InstanceUtils.prefixAttributeName("jmirmfccs_", this.jmirmfccs);
+		this.ssd = InstanceUtils.prefixAttributeName("ssd_", this.ssd);
+		this.rh = InstanceUtils.prefixAttributeName("rh_", this.rh);
 	}
 }

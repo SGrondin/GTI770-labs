@@ -36,9 +36,36 @@ public class InstanceUtils {
 		return instNew;
 	}
 	
+	public static void standardize(DataModel buildModel, DataModel evalModel) throws Exception {
+		Instances base_jmirmfccs = buildModel.jmirmfccs;
+		Instances base_marsyas = buildModel.marsyas;
+		Instances base_ssd = buildModel.ssd;
+		
+		buildModel.jmirmfccs = standardize(base_jmirmfccs, buildModel.jmirmfccs);
+		buildModel.marsyas = standardize(base_marsyas, buildModel.marsyas);
+		buildModel.ssd = standardize(base_ssd, buildModel.ssd);
+		
+		evalModel.jmirmfccs = standardize(base_jmirmfccs, evalModel.jmirmfccs);
+		evalModel.marsyas = standardize(base_marsyas, evalModel.marsyas);
+		evalModel.ssd = standardize(base_ssd, evalModel.ssd);
+	}
+	
 	public static Instances standardize(Instances base, Instances unstandardize) throws Exception {
 		Standardize standardize = new Standardize();
 		standardize.setInputFormat(base);
 		return Filter.useFilter(unstandardize, standardize);
+	}
+
+	public static Instances prefixAttributeName(String prefix, Instances rh) {
+		Instances inst = new Instances(rh);
+		
+		for (int i=0; i<inst.numAttributes(); i++) {
+			if (i == inst.classIndex()) continue;
+			
+			String newName = prefix + inst.attribute(i).name();
+			inst.renameAttribute(i, newName);
+		}
+		
+		return inst;
 	}
 }

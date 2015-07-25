@@ -1,5 +1,6 @@
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.LibSVM;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.meta.Vote;
 import weka.core.Instances;
@@ -40,5 +41,16 @@ public class Strategy {
 		Vote vote = new Vote();
 		vote.setClassifiers(classifiers);
 		return vote;
+	}
+	
+	public static Classifier strategySVM(Instances... set) throws Exception {
+		Instances inst = InstanceUtils.mergeInstances(set);
+		
+		LibSVM svm = new LibSVM();
+		svm.setOptions(new String[]{ "-S", "0", "-K", "2", "-D", "3", "-G", "0.0", "-R", "0.0", "-N", "0.5", "-M", "40.0", "-C", "1.0", "-E", "0.001", "-P", "0.1", "-seed", "1" });
+		
+		Classifier classifier = new AttributeClassifier(svm);
+		classifier.buildClassifier(inst);
+		return classifier;
 	}
 }
