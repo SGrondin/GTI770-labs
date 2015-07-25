@@ -10,16 +10,16 @@ import weka.core.Instances;
 
 public class PredictMusic {
 	public static void main(String[] args) throws Exception {
-		boolean build = false;
+		boolean build = true;
 		boolean evaluate = true;
 		
 		String inBuildFolder = "../Sample/";
-		String inEvalFolder = "../Sample/";
 		String modelFolder = "../Model/";
 		
-		DataModel buildModel = new DataModel(inBuildFolder);
-		DataModel evalModel = new DataModel(inEvalFolder);
-
+		DataModel allModel = new DataModel(inBuildFolder);
+		DataModel buildModel = allModel.getTrainingSet("50");
+		DataModel evalModel = allModel.getTestSet("50");
+		
 		InstanceUtils.standardize(buildModel, evalModel);
 		
 		if (build)

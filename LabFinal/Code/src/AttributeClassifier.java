@@ -20,7 +20,6 @@ public class AttributeClassifier extends Classifier {
 	
 	public AttributeClassifier(Classifier classifier) {
 		this.classifier = classifier;
-		
 	}
 	
 	public void buildClassifier(Instances inst) throws Exception {

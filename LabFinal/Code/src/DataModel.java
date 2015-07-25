@@ -1,5 +1,7 @@
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
+import weka.filters.Filter;
+import weka.filters.unsupervised.instance.RemovePercentage;
 
 
 public class DataModel {
@@ -23,9 +25,51 @@ public class DataModel {
 		this.rh = InstanceUtils.removeIdentifier(this.rh);
 		
 		// On rend unique les noms d'attributs //
-		this.rh = InstanceUtils.prefixAttributeName("rh_", this.rh);
 		this.jmirmfccs = InstanceUtils.prefixAttributeName("jmirmfccs_", this.jmirmfccs);
+		this.marsyas = InstanceUtils.prefixAttributeName("marsyas_", this.rh);
 		this.ssd = InstanceUtils.prefixAttributeName("ssd_", this.ssd);
 		this.rh = InstanceUtils.prefixAttributeName("rh_", this.rh);
+	}
+	
+	public DataModel getTrainingSet(String percent) throws Exception {
+		RemovePercentage removeData = new RemovePercentage();
+		removeData.setOptions(new String[]{ "-P", percent });
+		
+		DataModel newModel = new DataModel();
+		
+		removeData.setInputFormat(this.jmirmfccs);
+		newModel.jmirmfccs = Filter.useFilter(this.jmirmfccs, removeData);
+		
+		removeData.setInputFormat(this.marsyas);
+		newModel.marsyas = Filter.useFilter(this.marsyas, removeData);
+		
+		removeData.setInputFormat(this.ssd);
+		newModel.ssd = Filter.useFilter(this.ssd, removeData);
+		
+		removeData.setInputFormat(this.rh);
+		newModel.rh = Filter.useFilter(this.rh, removeData);
+		
+		return newModel;
+	}
+	
+	public DataModel getTestSet(String percent) throws Exception {
+		RemovePercentage removeData = new RemovePercentage();
+		removeData.setOptions(new String[]{ "-P", percent, "-V" });
+		
+		DataModel newModel = new DataModel();
+		
+		removeData.setInputFormat(this.jmirmfccs);
+		newModel.jmirmfccs = Filter.useFilter(this.jmirmfccs, removeData);
+		
+		removeData.setInputFormat(this.marsyas);
+		newModel.marsyas = Filter.useFilter(this.marsyas, removeData);
+		
+		removeData.setInputFormat(this.ssd);
+		newModel.ssd = Filter.useFilter(this.ssd, removeData);
+		
+		removeData.setInputFormat(this.rh);
+		newModel.rh = Filter.useFilter(this.rh, removeData);
+		
+		return newModel;
 	}
 }
