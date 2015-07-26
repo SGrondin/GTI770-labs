@@ -9,7 +9,7 @@ import weka.core.Instances;
 
 /**
  * Fait en sorte que seulement les attributs utilises pour l'entrainement 
- * soit utilise pour l'evaluation.
+ * soit utilisés pour l'evaluation.
  */
 public class AttributeClassifier extends Classifier {
 	private static final long serialVersionUID = -513615971340002718L;
