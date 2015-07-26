@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -52,6 +53,13 @@ public class PredictMusic {
 		}
 	}
 	
+	private static void writeModel(String modelFolder, String name, Classifier data) throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(modelFolder + name));
+		oos.writeObject(data);
+		oos.flush();
+		oos.close();
+	}
+	
 	private static void buildModel(DataModel buildModel, String modelFolder) throws Exception {
 		ObjectOutputStream oos;
 		
@@ -59,11 +67,7 @@ public class PredictMusic {
 		
 		// Modele pour Bayes
 		Classifier bayes = Strategy.strategyBayes(buildModel.jmirmfccs, buildModel.marsyas, buildModel.ssd);
-		
-		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "bayes.model"));
-		oos.writeObject(bayes);
-		oos.flush();
-		oos.close();
+		writeModel(modelFolder, "bayes.model", bayes);
 		
 		System.out.println("Building KNN Model ...");
 		
@@ -73,29 +77,18 @@ public class PredictMusic {
 		Instances standard_ssd = InstanceUtils.standardize(buildModel.ssd, buildModel.ssd);
 		
 		Classifier knn = Strategy.strategyKNN(standard_jmirmfccs, standard_marsyas, standard_ssd);
-		
-		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "knn.model"));
-		oos.writeObject(knn);
-		oos.flush();
-		oos.close();
+		writeModel(modelFolder, "knn.model", knn);
 		
 		System.out.println("Building SVM Model ...");
 		
 		// Modele pour SVM
 		Classifier svm = Strategy.strategySVM(buildModel.rh);
-		
-		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "svm.model"));
-		oos.writeObject(svm);
-		oos.flush();
-		oos.close();
+		writeModel(modelFolder, "svm.model", svm);
 		
 		// Model qui utilise les trois strategies
 		Vote combinedModel = new Vote();
+
 		combinedModel.setClassifiers(new Classifier[] { bayes, knn, svm });
-		
-		oos = new ObjectOutputStream(new FileOutputStream(modelFolder + "all.model"));
-		oos.writeObject(combinedModel);
-		oos.flush();
-		oos.close();
+		writeModel(modelFolder, "all.model", combinedModel);
 	}
 }
