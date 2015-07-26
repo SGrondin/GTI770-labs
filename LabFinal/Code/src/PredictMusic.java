@@ -12,10 +12,10 @@ import weka.core.Instances;
 
 public class PredictMusic {
 	public static void main(String[] args) throws Exception {
-		boolean build = false;
-		boolean evaluate = true;
+		boolean build = args[4].toLowerCase().equals("true");
+		boolean evaluate = args[5].toLowerCase().equals("true");
 		
-		String inBuildFolder = "../Sample/";
+		String inBuildFolder = args[0];
 		String modelFolder = "../Model/";
 		
 		DataModel allModel = new DataModel(inBuildFolder);
