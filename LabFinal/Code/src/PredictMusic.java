@@ -44,6 +44,7 @@ public class PredictMusic {
 		Evaluation evaluation = new Evaluation(combined);
 		double[] result = evaluation.evaluateModel(classifier, combined);
 		System.out.println(evaluation.toSummaryString());
+		System.out.println(evaluation.toMatrixString());
 		
 		System.out.println("Writing results to file ...");
 		
