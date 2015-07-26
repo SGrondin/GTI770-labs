@@ -16,11 +16,14 @@ public class PredictMusic {
 		boolean evaluate = args[5].toLowerCase().equals("true");
 		
 		String inBuildFolder = args[0];
-		String modelFolder = "../Model/";
+		String modelFolder = args[1];
+		String testFolder = args[2];
 		
 		DataModel allModel = new DataModel(inBuildFolder);
-		DataModel buildModel = allModel.getTrainingSet("50");
-		DataModel evalModel = allModel.getTestSet("50");
+		DataModel testModel = new DataModel(testFolder);
+		
+		DataModel buildModel = allModel;
+		DataModel evalModel = testModel;
 		
 		InstanceUtils.standardize(buildModel, evalModel);
 		
@@ -34,8 +37,6 @@ public class PredictMusic {
 	}
 	
 	private static void evaluateModel(DataModel buildModel, DataModel evalModel, String modelFolder, FileOutputStream outStream) throws Exception {
-		System.out.println("Evaluating All Model ...");
-		
 		Instances combined = InstanceUtils.mergeInstances(evalModel.jmirmfccs, evalModel.marsyas, evalModel.ssd, evalModel.rh);
 		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(modelFolder + "all.model"));
 		Classifier classifier = (Classifier) ois.readObject();
