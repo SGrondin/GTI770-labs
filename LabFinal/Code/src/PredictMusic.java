@@ -12,6 +12,11 @@ import weka.core.Instances;
 
 public class PredictMusic {
 	public static void main(String[] args) throws Exception {
+		if (args.length < 6) {
+			System.out.println("Usage : [dossier des données d'entraînement] [dossier des données de test] [dossier où les modèles sont sauvegardés] [fichier de résultats] [faire apprentissage] [faire évaluation]");
+			return;
+		}
+		
 		boolean build = args[4].toLowerCase().equals("true");
 		boolean evaluate = args[5].toLowerCase().equals("true");
 		
@@ -27,7 +32,7 @@ public class PredictMusic {
 		
 		InstanceUtils.standardize(buildModel, evalModel);
 		
-		FileOutputStream outStream = new FileOutputStream(new File("../label_resultat.txt"));
+		FileOutputStream outStream = new FileOutputStream(new File(args[3]));
 		
 		if (build)
 			buildModel(buildModel, modelFolder);
