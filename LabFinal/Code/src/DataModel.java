@@ -13,10 +13,10 @@ public class DataModel {
 	public DataModel() {}
 	
 	public DataModel(String folder) throws Exception {
-		this.jmirmfccs = DataSource.read(folder + "msd-jmirmfccs_dev.arff");
-		this.marsyas = DataSource.read(folder + "msd-marsyas_dev_new.arff");
-		this.ssd = DataSource.read(folder + "msd-ssd_dev.arff");
-		this.rh = DataSource.read(folder + "msd-rh_dev_new.arff");
+		this.jmirmfccs = DataSource.read(DirectoryUtils.getFilename(folder, "msd-jmirmfccs.*?.arff"));
+		this.marsyas = DataSource.read(DirectoryUtils.getFilename(folder, "msd-marsyas.*?.arff"));
+		this.ssd = DataSource.read(DirectoryUtils.getFilename(folder, "msd-ssd.*?.arff"));
+		this.rh = DataSource.read(DirectoryUtils.getFilename(folder, "msd-rh.*?.arff"));
 		
 		// On enlève les attributes textes qui ne sont pas pertinents //
 		this.jmirmfccs = InstanceUtils.removeIdentifier(this.jmirmfccs);
