@@ -21,8 +21,8 @@ public class PredictMusic {
 		boolean evaluate = args[5].toLowerCase().equals("true");
 		
 		String inBuildFolder = args[0];
-		String modelFolder = args[1];
-		String testFolder = args[2];
+		String modelFolder = args[2];
+		String testFolder = args[1];
 		
 		DataModel allModel = new DataModel(inBuildFolder);
 		DataModel testModel = new DataModel(testFolder);
